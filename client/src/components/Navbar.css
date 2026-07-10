@@ -1,0 +1,440 @@
+.navbar {
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2.5rem;
+  background: rgba(19, 28, 49, 0.5);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.navbar-page-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #f8fafc;
+  font-family: Outfit, sans-serif;
+}
+
+.navbar-right-menu {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.navbar-notification-wrapper {
+  position: relative;
+}
+
+.navbar-icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  outline: none;
+}
+
+.navbar-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.navbar-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: #ef4444;
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar-dropdown {
+  position: absolute;
+  right: 0;
+  top: 45px;
+  width: 320px;
+  max-height: 400px;
+  background: #131c31;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.navbar-dropdown-header {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.95rem;
+  font-family: Outfit, sans-serif;
+  color: #f8fafc;
+}
+
+.navbar-notifications-list {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.navbar-empty-text {
+  padding: 2rem;
+  text-align: center;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.navbar-notification-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  gap: 0.75rem;
+  transition: background 0.2s;
+}
+
+.navbar-notification-item.unread {
+  background: rgba(99, 102, 241, 0.08);
+}
+
+.navbar-notif-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #f8fafc;
+  margin-bottom: 0.2rem;
+}
+
+.navbar-notif-msg {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  line-height: 1.3;
+}
+
+.navbar-mark-read-btn {
+  background: rgba(16, 185, 129, 0.1);
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.navbar-profile-tag {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-left: 1.5rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.navbar-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar-user-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.navbar-user-role {
+  font-size: 0.7rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.navbar-logout-btn {
+  background: rgba(239, 68, 68, 0.05);
+  border: none;
+  border-radius: 8px;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.navbar-logout-btn:hover {
+  background: rgba(239, 68, 68, 0.12);
+}
+
+/* Logout Confirmation Popup */
+.logout-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(11, 15, 25, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: logoutFadeIn 0.15s ease-out;
+}
+
+.logout-modal-card {
+  width: 90%;
+  max-width: 380px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logout-modal-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 1.25rem;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logout-modal-header {
+  font-size: 1.2rem;
+  color: #f8fafc;
+  font-family: 'Outfit', sans-serif;
+  margin-bottom: 0.75rem;
+}
+
+.logout-modal-text {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  line-height: 1.5;
+  margin-bottom: 1.75rem;
+}
+
+.logout-modal-btns {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.logout-modal-btns .btn {
+  flex: 1;
+}
+
+@keyframes logoutFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Navbar Study Goal Section */
+.navbar-goal-section {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  margin-right: 1rem;
+}
+
+.navbar-goal-left {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  transition: all 0.2s ease;
+}
+
+.navbar-goal-left:hover {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.4);
+  transform: translateY(-0.5px);
+}
+
+.navbar-goal-icon {
+  color: #6366f1;
+}
+
+.navbar-goal-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.navbar-goal-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.navbar-goal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar-goal-dot:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 6px rgba(96, 165, 250, 0.4);
+}
+
+.navbar-goal-dot.status-completed {
+  background-color: #10b981 !important;
+  border-color: #10b981 !important;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.5);
+}
+
+.navbar-goal-dot.status-missed {
+  background-color: #ef4444 !important;
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.5);
+}
+
+.navbar-goal-dot.status-pending {
+  background-color: transparent !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+.navbar-goal-dot.active {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+  animation: navbar-dot-pulse 1.5s infinite alternate;
+}
+
+@keyframes navbar-dot-pulse {
+  from {
+    transform: scale(1);
+    box-shadow: 0 0 4px rgba(59, 130, 246, 0.4);
+  }
+  to {
+    transform: scale(1.2);
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.8);
+  }
+}
+
+/* Responsive Hamburger Button & Flex layout */
+.navbar-hamburger-btn {
+  display: none;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .navbar-hamburger-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    color: #94a3b8;
+    transition: background 0.2s, color 0.2s;
+  }
+  
+  .navbar-hamburger-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+  }
+  
+  .navbar {
+    padding: 0 1.25rem;
+    height: 65px;
+  }
+  
+  .navbar-page-title {
+    font-size: 1.05rem;
+  }
+  
+  /* Hide text metadata in mobile to avoid overflow */
+  .navbar-user-info {
+    display: none;
+  }
+  
+  /* Reduce profile padding */
+  .navbar-profile-tag {
+    padding-left: 0.75rem;
+    gap: 0.5rem;
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  /* Shrink right menu gaps */
+  .navbar-right-menu {
+    gap: 0.75rem;
+  }
+
+  /* Make notifications dropdown responsive */
+  .navbar-dropdown {
+    right: -60px;
+    width: 280px;
+  }
+  
+  /* Hide the study days text or goals count, show simpler badge */
+  .navbar-goal-text {
+    display: none;
+  }
+  
+  .navbar-goal-section {
+    padding: 0.3rem 0.5rem;
+    margin-right: 0.25rem;
+  }
+  
+  .navbar-goal-left {
+    padding: 0.2rem 0.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-goal-dots {
+    display: none;
+  }
+  .navbar-goal-section {
+    margin-right: 0;
+  }
+}

@@ -1,0 +1,125 @@
+/* AdminLogin.css */
+
+.admin-login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  /* Slightly different background tint to signal a different portal */
+  background: radial-gradient(ellipse at 60% 0%, rgba(99,102,241,0.12) 0%, transparent 60%),
+              radial-gradient(ellipse at 20% 100%, rgba(139,92,246,0.10) 0%, transparent 55%);
+}
+
+.admin-login-card {
+  width: 100%;
+  max-width: 430px;
+  padding: 2.5rem;
+}
+
+/* Header */
+.admin-login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.admin-login-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  background: rgba(99,102,241,0.12);
+  border: 1px solid rgba(99,102,241,0.25);
+  margin-bottom: 1rem;
+}
+
+.admin-login-title {
+  font-size: 1.5rem;
+  color: #ffffff;
+  margin-bottom: 0.4rem;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+}
+
+.admin-login-subtitle {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  letter-spacing: 0.01em;
+}
+
+/* Error */
+.admin-login-error {
+  background-color: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  color: #f87171;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Submit button */
+.admin-login-btn {
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* Divider */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0 1.25rem;
+  color: #64748b;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.auth-divider span { padding: 0 0.8rem; }
+
+/* Google button */
+.google-auth-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+/* Footer links */
+.admin-login-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1.75rem;
+}
+
+.admin-login-back-link {
+  font-size: 0.82rem;
+  color: #6366f1;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+
+.admin-login-back-link:hover {
+  text-decoration: underline;
+  color: #818cf8;
+}
+
+.admin-login-divider-dot {
+  color: #475569;
+  font-size: 0.9rem;
+}

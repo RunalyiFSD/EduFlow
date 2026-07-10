@@ -1,0 +1,176 @@
+/* Users.css */
+
+.users-header {
+  margin-bottom: 2rem;
+}
+
+.users-title {
+  font-size: 2rem;
+  color: #ffffff;
+  font-family: 'Outfit', sans-serif;
+}
+
+.users-sub {
+  color: #94a3b8;
+  font-size: 0.95rem;
+}
+
+.users-card {
+  padding: 0;
+  overflow-x: auto;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  min-width: 800px;
+}
+
+.users-th-row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.users-th {
+  padding: 1.25rem 1.5rem;
+  color: #94a3b8;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.users-tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  transition: background 0.2s;
+}
+
+.users-td {
+  padding: 1.25rem 1.5rem;
+  vertical-align: middle;
+  color: #cbd5e1;
+  font-size: 0.9rem;
+}
+
+.users-cell-profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.users-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.users-name {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.users-date-joined {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.users-status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Dynamic verification badge states */
+.users-status-approved {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.users-status-pending {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+.users-na-text {
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+.users-actions-cell {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.users-action-btn {
+  border: none;
+  padding: 0.45rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: transform 0.1s;
+}
+
+/* Verification button states */
+.btn-verify-approve {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.btn-verify-block {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+/* Suspension button states */
+.btn-suspend-activate {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.btn-suspend-ban {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.btn-user-delete {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+
+.btn-user-delete:hover:not(:disabled) {
+  background-color: rgba(239, 68, 68, 0.3);
+}
+
+.btn-user-delete:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.users-error-alert {
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  color: #f87171;
+  font-size: 0.85rem;
+}
+
+.users-success-alert {
+  background-color: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  color: #34d399;
+  font-size: 0.85rem;
+}

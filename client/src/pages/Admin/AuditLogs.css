@@ -1,0 +1,174 @@
+.audit-header {
+  margin-bottom: 2rem;
+}
+
+.audit-title {
+  font-size: 2rem;
+  color: #ffffff;
+  font-family: Outfit, sans-serif;
+}
+
+.audit-subtitle {
+  color: #94a3b8;
+  font-size: 0.95rem;
+}
+
+.audit-search-container {
+  position: relative;
+  max-width: 500px;
+  margin-bottom: 2rem;
+}
+
+.audit-search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+}
+
+.audit-search-input {
+  padding-left: 2.75rem;
+}
+
+.audit-card {
+  padding: 0;
+}
+
+.audit-table-scroll {
+  overflow-x: auto;
+}
+
+.audit-table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.audit-th-row {
+  border-bottom: 1px solid
+    rgba(255, 255, 255, 0.08);
+}
+
+.audit-th {
+  padding: 1.25rem 1.5rem;
+  color: #94a3b8;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.audit-tr {
+  border-bottom: 1px solid
+    rgba(255, 255, 255, 0.03);
+  transition: background 0.2s ease;
+}
+
+.audit-tr:hover {
+  background: rgba(
+    255,
+    255,
+    255,
+    0.02
+  );
+}
+
+.audit-td {
+  padding: 1.25rem 1.5rem;
+  vertical-align: middle;
+  color: #cbd5e1;
+  font-size: 0.875rem;
+}
+
+.audit-date-text {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.audit-time-text {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.audit-action-tag {
+  background: rgba(
+    99,
+    102,
+    241,
+    0.15
+  );
+  color: #818cf8;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.75rem;
+  font-family: Outfit, sans-serif;
+  text-transform: uppercase;
+}
+
+.audit-user-name {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.audit-user-email {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.audit-system-tag {
+  color: #fbbf24;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: rgba(
+    245,
+    158,
+    11,
+    0.1
+  );
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.audit-details-box {
+  max-width: 400px;
+  white-space: normal;
+  word-wrap: break-word;
+  line-height: 1.4;
+}
+
+.audit-ip-text {
+  background: rgba(
+    255,
+    255,
+    255,
+    0.03
+  );
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #94a3b8;
+  font-size: 0.8rem;
+}
+
+.audit-error-alert {
+  background: rgba(
+    239,
+    68,
+    68,
+    0.1
+  );
+  border: 1px solid
+    rgba(239, 68, 68, 0.2);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  color: #f87171;
+  font-size: 0.85rem;
+}
+
+.audit-empty-state {
+  padding: 2rem;
+  text-align: center;
+  color: #94a3b8;
+}

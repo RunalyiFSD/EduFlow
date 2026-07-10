@@ -1,0 +1,30 @@
+{
+  "name": "eduflow-backend",
+  "version": "1.0.0",
+  "description": "EduFlow REST API server (Express + JWT) backing the React client.",
+  "private": true,
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^8.1.6",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.41.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "google-auth-library": "^10.7.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^9.7.1",
+    "multer": "^1.4.5-lts.1",
+    "multer-storage-cloudinary": "^4.0.0",
+    "node-cron": "^3.0.3",
+    "twilio": "^6.0.2",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

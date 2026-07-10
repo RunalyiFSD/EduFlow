@@ -1,0 +1,179 @@
+/* Progress.css */
+
+.progress-header {
+  margin-bottom: 2.5rem;
+}
+
+.progress-title {
+  font-size: 2rem;
+  color: #ffffff;
+  font-family: 'Outfit', sans-serif;
+}
+
+.progress-subtitle {
+  color: #94a3b8;
+  font-size: 0.95rem;
+}
+
+.progress-metrics-row {
+  margin-bottom: 2rem;
+}
+
+.progress-metric-card {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.progress-metric-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.progress-metric-label {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.progress-metric-val {
+  font-size: 1.5rem;
+  color: #ffffff;
+  font-weight: 700;
+  font-family: 'Outfit', sans-serif;
+}
+
+.progress-section {
+  margin-top: 3rem;
+}
+
+.progress-sec-title {
+  font-size: 1.35rem;
+  color: #ffffff;
+  font-family: 'Outfit', sans-serif;
+  margin-bottom: 1.25rem;
+}
+
+.progress-empty-card {
+  padding: 2.5rem;
+  text-align: center;
+  color: #94a3b8;
+}
+
+/* Certificate Layout Grid */
+.progress-certificate-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.progress-cert-card {
+  position: relative;
+  border: 2px solid rgba(245, 158, 11, 0.2);
+  padding: 2rem;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.progress-cert-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+.progress-cert-ribbon {
+  margin-bottom: 1rem;
+}
+
+.progress-cert-course-title {
+  font-size: 1.15rem;
+  color: #ffffff;
+  font-family: 'Outfit', sans-serif;
+  margin-bottom: 0.25rem;
+}
+
+.progress-cert-desc {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin-bottom: 1.5rem;
+}
+
+.progress-cert-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 1rem;
+}
+
+.progress-cert-date {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.progress-print-btn {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.75rem;
+}
+
+/* Linear Course Breakdowns */
+.progress-breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.progress-breakdown-card {
+  padding: 1.5rem;
+}
+
+.progress-breakdown-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.progress-breakdown-course {
+  font-size: 0.95rem;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.progress-breakdown-percent {
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.progress-bar-container {
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.4s ease;
+}
+
+.progress-error-alert {
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  color: #f87171;
+  font-size: 0.85rem;
+}
+
+/* Optimization rule for hard-copy printing options */
+@media print {
+  .progress-cert-card {
+    border: 2px solid #000000 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  .progress-print-btn, .progress-header {
+    display: none !important;
+  }
+}
