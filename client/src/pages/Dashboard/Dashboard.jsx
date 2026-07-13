@@ -865,7 +865,6 @@ const StudyGoalModal = ({ isOpen, onClose, enrollment, course, token, onGoalSave
   const [studyDays, setStudyDays] = useState([]);
   const [studyTime, setStudyTime] = useState('12:00');
   const [duration, setDuration] = useState('30 min');
-  const [receiveWhatsapp, setReceiveWhatsapp] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
@@ -874,12 +873,10 @@ const StudyGoalModal = ({ isOpen, onClose, enrollment, course, token, onGoalSave
       setStudyDays(enrollment.studyGoal.studyDays || []);
       setStudyTime(enrollment.studyGoal.studyTime || '12:00');
       setDuration(enrollment.studyGoal.duration || '30 min');
-      setReceiveWhatsapp(!!enrollment.studyGoal.receiveWhatsapp);
     } else {
       setStudyDays([]);
       setStudyTime('12:00');
       setDuration('30 min');
-      setReceiveWhatsapp(false);
     }
     setError('');
   }, [enrollment, isOpen]);
@@ -917,8 +914,7 @@ const StudyGoalModal = ({ isOpen, onClose, enrollment, course, token, onGoalSave
       await setStudyGoal(course._id, {
         studyDays,
         studyTime,
-        duration,
-        receiveWhatsapp
+        duration
       }, token);
       
       window.dispatchEvent(new Event('studyGoalUpdated'));
@@ -1042,18 +1038,6 @@ const StudyGoalModal = ({ isOpen, onClose, enrollment, course, token, onGoalSave
                 );
               })}
             </div>
-          </div>
-
-          {/* Whatsapp Alert Checkbox */}
-          <div className="goal-form-section">
-            <label className="goal-checkbox-label">
-              <input
-                type="checkbox"
-                checked={receiveWhatsapp}
-                onChange={(e) => setReceiveWhatsapp(e.target.checked)}
-              />
-              <span>Receive reminder and updates via Whatsapp</span>
-            </label>
           </div>
 
           {/* Actions */}

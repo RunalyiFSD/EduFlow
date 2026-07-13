@@ -62,6 +62,13 @@ export const AuthProvider = ({ children }) => {
     setError(null);
     try {
       const data = await authApi.register(name, email, password, role, phone);
+      if (data && !data.requiresVerification && data.token && data.user) {
+        setToken(data.token);
+        setUser(data.user);
+        localStorage.setItem('eduflow_token', data.token);
+        localStorage.setItem('eduflow_user', JSON.stringify(data.user));
+        return data.user;
+      }
       return data;
     } catch (err) {
       setError(err.message);
