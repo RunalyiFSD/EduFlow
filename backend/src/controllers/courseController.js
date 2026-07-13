@@ -5,7 +5,6 @@ const Enrollment = require('../models/Enrollment');
 const AuditLog = require('../models/AuditLog');
 const User = require('../models/User');
 const { sendEmail } = require('../utils/emailService');
-const { sendWhatsApp } = require('../utils/smsService');
 const mongoose = require('mongoose');
 const { initializeWeeklyProgress } = require('../utils/goalHelper');
 const { scheduleReminder, cancelReminder } = require('../utils/scheduler');
@@ -270,7 +269,7 @@ exports.uploadVideo = asyncHandler(async (req, res) => {
 });
 
 exports.setStudyGoal = asyncHandler(async (req, res) => {
-  const { studyDays, studyTime, duration, receiveWhatsapp } = req.body;
+  const { studyDays, studyTime, duration } = req.body;
 
   const enrollment = await Enrollment.findOne({ user: req.user._id, course: req.params.id }).populate('course');
   if (!enrollment) throw new ApiError(404, 'Enrollment not found for this course.');
@@ -279,7 +278,7 @@ exports.setStudyGoal = asyncHandler(async (req, res) => {
     studyDays: studyDays || [],
     studyTime: studyTime || '',
     duration: duration || '',
-    receiveWhatsapp: !!receiveWhatsapp,
+    receiveWhatsapp: false,
     completedDates: enrollment.studyGoal?.completedDates || []
   };
 
@@ -297,18 +296,10 @@ exports.setStudyGoal = asyncHandler(async (req, res) => {
       studyTime,
       String(req.user._id),
       enrollment.course?.title || 'your course',
-      !!receiveWhatsapp
+      false
     );
   } else {
     cancelReminder(String(enrollment._id));
-  }
-
-  if (receiveWhatsapp) {
-    const daysStr = studyDays && studyDays.length ? studyDays.join(', ') : 'None';
-    const message = `Hi ${req.user.name},\n\nYour study goal has been set for "${enrollment.course?.title || 'your course'}"!\n\nSchedule: ${daysStr} at ${studyTime || '—'} for ${duration || '—'}.\n\nWe'll keep you on track!\n- The EduFlow Team`;
-    
-    sendWhatsApp({ to: req.user.phone || '9999999999', body: message })
-      .catch(err => console.error('Failed to send WhatsApp reminder:', err.message));
   }
 
   res.json({
@@ -357,12 +348,6 @@ exports.toggleStudySession = asyncHandler(async (req, res) => {
   enrollment.markModified('studyGoal');
   await enrollment.save();
 
-  if (checkedIn && enrollment.studyGoal.receiveWhatsapp) {
-    const message = `Great job, ${req.user.name}! You checked in for your study session for "${enrollment.course?.title || 'your course'}" on ${targetDate}. Keep up the amazing streak! 🔥`;
-    sendWhatsApp({ to: req.user.phone || '9999999999', body: message })
-      .catch(err => console.error('Failed to send checkin WhatsApp notification:', err.message));
-  }
-
   res.json({
     success: true,
     studyGoal: enrollment.studyGoal
@@ -378,7 +363,7 @@ exports.getCourseEnrollments = asyncHandler(async (req, res) => {
   }
 
   const enrollments = await Enrollment.find({ course: req.params.id })
-    .populate('user', 'name email phone avatarUrl')
+    .populate('user', 'name email avatarUrl')
     .lean();
 
   const formatted = enrollments.map((e) => ({
@@ -387,7 +372,6 @@ exports.getCourseEnrollments = asyncHandler(async (req, res) => {
       id: String(e.user._id),
       name: e.user.name,
       email: e.user.email,
-      phone: e.user.phone,
       avatarUrl: e.user.avatarUrl
     } : null,
     progressPercentage: e.progressPercentage,

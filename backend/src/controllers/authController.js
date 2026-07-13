@@ -8,7 +8,6 @@ const User = require('../models/User');
 const Notification = require('../models/Notification');
 const AuditLog = require('../models/AuditLog');
 const { sendEmail } = require('../utils/emailService');
-const { sendSMS } = require('../utils/smsService');
 const { JWT_SECRET, GOOGLE_CLIENT_ID, ADMIN_REGISTER_SECRET, CLIENT_ORIGIN } = require('../config/env');
 
 const generateToken = (userId) => jwt.sign({ id: userId }, JWT_SECRET, { expiresIn: '7d' });
@@ -40,9 +39,6 @@ exports.login = asyncHandler(async (req, res) => {
     throw new ApiError(401, 'Invalid email or password combination.');
   }
   if (user.isSuspended) throw new ApiError(403, 'This account has been suspended by an administrator.');
-  if (!user.isVerified) {
-    throw new ApiError(403, 'Your account phone number is not verified. Please register again or verify your OTP.');
-  }
 
   await logActivity('USER_LOGIN', `User ${user.email} successfully logged in.`, user);
 
@@ -51,44 +47,26 @@ exports.login = asyncHandler(async (req, res) => {
 
 // POST /api/auth/register
 exports.register = asyncHandler(async (req, res) => {
-  const { name, email, password, role, phone } = req.body;
+  const { name, email, password, role } = req.body;
 
   let user = await User.findOne({ email: email.toLowerCase() });
   if (user) {
-    if (user.isVerified) {
-      throw new ApiError(409, 'An account with this email already exists.');
-    }
-    // Update existing unverified user info
-    user.name = name;
-    user.password = bcrypt.hashSync(password, 10);
-    user.role = role;
-    user.phone = phone;
-    user.isApproved = role !== 'instructor';
-  } else {
-    const isApproved = role !== 'instructor';
-    user = new User({
-      name,
-      email,
-      password: bcrypt.hashSync(password, 10),
-      role,
-      phone,
-      isApproved,
-      isVerified: false
-    });
+    throw new ApiError(409, 'An account with this email already exists.');
   }
 
-  // Generate 6-digit OTP
-  const otp = Math.floor(100000 + Math.random() * 900000).toString();
-  user.otp = otp;
-  user.otpExpires = Date.now() + 10 * 60 * 1000; // 10 minutes expiry
-  await user.save();
-
-  await sendSMS({
-    to: phone,
-    body: `Your EduFlow verification OTP is ${otp}. It will expire in 10 minutes.`
+  const isApproved = role !== 'instructor';
+  user = new User({
+    name,
+    email,
+    password: bcrypt.hashSync(password, 10),
+    role,
+    isApproved,
+    isVerified: true
   });
 
-  await logActivity('USER_REGISTER_OTP_SENT', `New user registered: ${email} as ${role}. OTP sent to ${phone}.`, user);
+  await user.save();
+
+  await logActivity('USER_REGISTER', `New user registered: ${email} as ${role}.`, user);
 
   if (role === 'instructor') {
     const admin = await User.findOne({ role: 'admin' });
@@ -101,7 +79,11 @@ exports.register = asyncHandler(async (req, res) => {
     }
   }
 
-  res.status(201).json({ requiresVerification: true, email: user.email, message: 'OTP sent to mobile number.' });
+  res.status(201).json({ 
+    requiresVerification: false, 
+    token: generateToken(user._id), 
+    user: sanitizeUser(user) 
+  });
 });
 
 // POST /api/auth/forgot-password
@@ -273,60 +255,6 @@ exports.googleAdminRegister = asyncHandler(async (req, res) => {
   }
 
   res.status(201).json({ token: generateToken(user._id), user: sanitizeUser(user) });
-});
-
-// POST /api/auth/verify-otp
-exports.verifyOtp = asyncHandler(async (req, res) => {
-  const { email, otp } = req.body;
-
-  const user = await User.findOne({ email: email.toLowerCase() });
-  if (!user) throw new ApiError(404, 'User not found.');
-
-  if (user.isVerified) {
-    return res.status(200).json({
-      token: generateToken(user._id),
-      user: sanitizeUser(user)
-    });
-  }
-
-  if (user.otp !== otp || user.otpExpires < Date.now()) {
-    throw new ApiError(400, 'Invalid or expired OTP.');
-  }
-
-  user.isVerified = true;
-  user.otp = null;
-  user.otpExpires = null;
-  await user.save();
-
-  await logActivity('USER_OTP_VERIFIED', `User ${user.email} verified account via OTP.`, user);
-
-  res.status(200).json({
-    token: generateToken(user._id),
-    user: sanitizeUser(user)
-  });
-});
-
-// POST /api/auth/resend-otp
-exports.resendOtp = asyncHandler(async (req, res) => {
-  const { email } = req.body;
-
-  const user = await User.findOne({ email: email.toLowerCase() });
-  if (!user) throw new ApiError(404, 'User not found.');
-  if (user.isVerified) throw new ApiError(400, 'Account is already verified.');
-
-  const otp = Math.floor(100000 + Math.random() * 900000).toString();
-  user.otp = otp;
-  user.otpExpires = Date.now() + 10 * 60 * 1000;
-  await user.save();
-
-  await sendSMS({
-    to: user.phone,
-    body: `Your EduFlow verification OTP is ${otp}. It will expire in 10 minutes.`
-  });
-
-  await logActivity('USER_OTP_RESENT', `OTP resent to ${user.email}.`, user);
-
-  res.json({ success: true, message: 'OTP resent successfully.' });
 });
 
 // POST /api/auth/reset-password/:token

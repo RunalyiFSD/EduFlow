@@ -6,7 +6,6 @@ const registerSchema = z.object({
     email: z.string({ required_error: 'Email is required.' }).trim().email('Invalid email address.'),
     password: z.string({ required_error: 'Password is required.' }).min(6, 'Password must be at least 6 characters.'),
     role: z.enum(['student', 'instructor'], { required_error: 'Role is required.' }),
-    phone: z.string({ required_error: 'Phone number is required.' }).trim().min(1, 'Phone number is required.'),
   }),
 });
 
@@ -23,18 +22,7 @@ const forgotPasswordSchema = z.object({
   }),
 });
 
-const verifyOtpSchema = z.object({
-  body: z.object({
-    email: z.string({ required_error: 'Email is required.' }).trim().email('Invalid email address.'),
-    otp: z.string({ required_error: 'OTP is required.' }).length(6, 'OTP must be exactly 6 digits.'),
-  }),
-});
 
-const resendOtpSchema = z.object({
-  body: z.object({
-    email: z.string({ required_error: 'Email is required.' }).trim().email('Invalid email address.'),
-  }),
-});
 
 const resetPasswordSchema = z.object({
   params: z.object({
@@ -72,8 +60,6 @@ module.exports = {
   registerSchema,
   loginSchema,
   forgotPasswordSchema,
-  verifyOtpSchema,
-  resendOtpSchema,
   resetPasswordSchema,
   googleAuthSchema,
   registerAdminSchema,

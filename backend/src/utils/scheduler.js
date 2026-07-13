@@ -10,7 +10,7 @@ const activeReminders = new Map();
 /**
  * Dynamically configures a cron alarm for a student's specific enrollment goal.
  */
-const scheduleReminder = (enrollmentId, studyDays, studyTime, userId, courseTitle, receiveWhatsapp) => {
+const scheduleReminder = (enrollmentId, studyDays, studyTime, userId, courseTitle) => {
   // Cancel previous alarm if any exists
   cancelReminder(enrollmentId);
 
@@ -30,32 +30,28 @@ const scheduleReminder = (enrollmentId, studyDays, studyTime, userId, courseTitl
     'Sunday': 'Sun'
   };
 
-  const cronDays = studyDays.map(d => DAY_MAP[d] || d.slice(0, 3)).join(',');
-  const cronPattern = `${minutes} ${hours} * * ${cronDays}`;
+  const mappedDays = studyDays
+    .map(d => DAY_MAP[d])
+    .filter(Boolean);
 
-  console.log(`Scheduling study goal alarm for Enrollment ${enrollmentId} (Course: "${courseTitle}"): Cron "${cronPattern}"`);
+  if (mappedDays.length === 0) return;
 
-  const task = cron.schedule(cronPattern, async () => {
+  const daysCron = mappedDays.join(',');
+  const cronExpression = `${minutes} ${hours} * * ${daysCron}`;
+
+  const task = cron.schedule(cronExpression, async () => {
     try {
-      const enrollment = await Enrollment.findById(enrollmentId).populate('course user');
-      if (!enrollment || !enrollment.studyGoal || !enrollment.user) {
-        console.log(`Reminder ignored: Enrollment ${enrollmentId} is no longer active.`);
+      const enrollment = await Enrollment.findById(enrollmentId).populate('user').populate('course');
+      if (!enrollment || !enrollment.user) {
+        console.log(`Reminder skipped: Enrollment ${enrollmentId} or student not found.`);
         return;
       }
 
-      // Check if goal was already completed today
-      const todayDateStr = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD
-      if (enrollment.studyGoal.completedDates?.includes(todayDateStr)) {
-        console.log(`Reminder skipped: Goal for "${courseTitle}" is already completed today.`);
-        return;
-      }
-
-      // 1. Create database notification
+      // 1. Send system internal notification
       await Notification.create({
         userId: enrollment.user._id,
-        title: `Goal Reminder: ${enrollment.course?.title || courseTitle}`,
-        message: `It's time for your study session for "${enrollment.course?.title || courseTitle}". Let's get to work! 📚`,
-        isRead: false
+        title: 'Study Reminder',
+        message: `It's time to study! Work on your course: "${enrollment.course?.title || courseTitle}".`
       });
 
       // 2. Send email reminder
@@ -69,15 +65,6 @@ const scheduleReminder = (enrollmentId, studyDays, studyTime, userId, courseTitl
                 `<p>Keep up your learning momentum!</p>` +
                 `<p>Best regards,<br/>- The EduFlow Team</p>`
         }).catch(err => console.error('Failed to send goal reminder email:', err.message));
-      }
-
-      // 3. Send WhatsApp if requested
-      if (enrollment.studyGoal.receiveWhatsapp) {
-        const { sendWhatsApp } = require('./smsService');
-        const phone = enrollment.user.phone || '9999999999';
-        const message = `Hi ${enrollment.user.name},\n\nThis is your scheduled study goal reminder for "${enrollment.course?.title || courseTitle}". Let's get closer to your certification! 🎯`;
-        sendWhatsApp({ to: phone, body: message })
-          .catch(err => console.error('Failed to send goal reminder WhatsApp:', err.message));
       }
 
       console.log(`Triggered study goal alarm for student ${enrollment.user.email} for "${enrollment.course?.title || courseTitle}".`);
@@ -116,8 +103,7 @@ const initAllGoalReminders = async () => {
           enrollment.studyGoal.studyDays,
           enrollment.studyGoal.studyTime,
           String(enrollment.user),
-          enrollment.course?.title || 'your course',
-          !!enrollment.studyGoal.receiveWhatsapp
+          enrollment.course?.title || 'your course'
         );
         count++;
       }

@@ -11,10 +11,7 @@ const userSchema = new mongoose.Schema(
     avatarUrl:  { type: String, default: null },
     isApproved: { type: Boolean, default: true },         // instructors start false
     isSuspended:{ type: Boolean, default: false },
-    phone:      { type: String, default: null },
-    isVerified: { type: Boolean, default: false },         // true by default for Google logins, false for local
-    otp:        { type: String, default: null },
-    otpExpires: { type: Date, default: null },
+    isVerified: { type: Boolean, default: true },
     resetPasswordToken:   { type: String, default: null },
     resetPasswordExpires: { type: Date, default: null }
   },
