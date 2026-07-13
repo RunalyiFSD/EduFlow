@@ -57,11 +57,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const registerUser = async (name, email, password, role, phone) => {
+  const registerUser = async (name, email, password, role) => {
     setLoading(true);
     setError(null);
     try {
-      const data = await authApi.register(name, email, password, role, phone);
+      const data = await authApi.register(name, email, password, role);
       if (data && !data.requiresVerification && data.token && data.user) {
         setToken(data.token);
         setUser(data.user);
@@ -70,24 +70,6 @@ export const AuthProvider = ({ children }) => {
         return data.user;
       }
       return data;
-    } catch (err) {
-      setError(err.message);
-      throw err;
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const verifyOtp = async (email, otp) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await authApi.verifyOtp(email, otp);
-      setToken(data.token);
-      setUser(data.user);
-      localStorage.setItem('eduflow_token', data.token);
-      localStorage.setItem('eduflow_user', JSON.stringify(data.user));
-      return data.user;
     } catch (err) {
       setError(err.message);
       throw err;
@@ -170,7 +152,6 @@ export const AuthProvider = ({ children }) => {
       error,
       loginUser,
       registerUser,
-      verifyOtp,
       loginWithGoogle,
       registerAdmin,
       registerAdminWithGoogle,

@@ -7,24 +7,10 @@ export const login = async (email, password) => {
   });
 };
 
-export const register = async (name, email, password, role, phone) => {
+export const register = async (name, email, password, role) => {
   return apiRequest('/auth/register', {
     method: 'POST',
-    body: { name, email, password, role, phone }
-  });
-};
-
-export const verifyOtp = async (email, otp) => {
-  return apiRequest('/auth/verify-otp', {
-    method: 'POST',
-    body: { email, otp }
-  });
-};
-
-export const resendOtp = async (email) => {
-  return apiRequest('/auth/resend-otp', {
-    method: 'POST',
-    body: { email }
+    body: { name, email, password, role }
   });
 };
 
