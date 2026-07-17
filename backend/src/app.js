@@ -10,7 +10,24 @@ const { CLIENT_ORIGIN } = require('./config/env');
 
 const app = express();
 
-app.use(cors({ origin: CLIENT_ORIGIN, credentials: true }));
+const allowedOrigins = [];
+if (CLIENT_ORIGIN) {
+  allowedOrigins.push(...CLIENT_ORIGIN.split(',').map(o => o.trim()));
+}
+allowedOrigins.push('http://localhost:5173', 'http://localhost:3000');
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    const isAllowed = allowedOrigins.includes(origin) || /^https?:\/\/localhost(:\d+)?$/.test(origin);
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 app.use(express.json());
 
 // Serve uploaded course cover images

@@ -2,7 +2,10 @@
 // Centralizing this means every api/* file just describes *which*
 // endpoint to call, not how to call it.
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL = rawApiUrl.replace(/\/$/, '').endsWith('/api')
+  ? rawApiUrl.replace(/\/$/, '')
+  : `${rawApiUrl.replace(/\/$/, '')}/api`;
 
 const buildHeaders = (token, isFormData) => {
   const headers = {};
