@@ -16,15 +16,26 @@ if (CLIENT_ORIGIN) {
 }
 allowedOrigins.push('http://localhost:5173', 'http://localhost:3000');
 
+console.log(`[CORS Config] CLIENT_ORIGIN environment value: "${CLIENT_ORIGIN || ''}"`);
+console.log(`[CORS Config] Final allowedOrigins array:`, allowedOrigins);
+
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin) return callback(null, true);
+    if (!origin) {
+      console.log('[CORS Debug] Request with no Origin header. Automatically allowed.');
+      return callback(null, true);
+    }
     
     const normalizedOrigin = origin.replace(/\/$/, '');
     const isAllowed = allowedOrigins.includes(normalizedOrigin) || 
                       /^https?:\/\/localhost(:\d+)?$/.test(normalizedOrigin) ||
                       process.env.NODE_ENV === 'development';
                       
+    console.log(`[CORS Debug] Incoming Origin: "${origin}" (normalized: "${normalizedOrigin}"). Allowed? ${isAllowed}`);
+    if (!isAllowed) {
+      console.log(`[CORS Debug] Rejection reason: Origin "${normalizedOrigin}" does not match allowedOrigins or localhost regex, and NODE_ENV is "${process.env.NODE_ENV || 'production'}".`);
+    }
+    
     if (isAllowed) {
       callback(null, true);
     } else {
