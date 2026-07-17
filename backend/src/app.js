@@ -12,21 +12,27 @@ const app = express();
 
 const allowedOrigins = [];
 if (CLIENT_ORIGIN) {
-  allowedOrigins.push(...CLIENT_ORIGIN.split(',').map(o => o.trim()));
+  allowedOrigins.push(...CLIENT_ORIGIN.split(',').map(o => o.trim().replace(/\/$/, '')));
 }
 allowedOrigins.push('http://localhost:5173', 'http://localhost:3000');
 
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) return callback(null, true);
-    const isAllowed = allowedOrigins.includes(origin) || /^https?:\/\/localhost(:\d+)?$/.test(origin); 
+    
+    const normalizedOrigin = origin.replace(/\/$/, '');
+    const isAllowed = allowedOrigins.includes(normalizedOrigin) || 
+                      /^https?:\/\/localhost(:\d+)?$/.test(normalizedOrigin) ||
+                      process.env.NODE_ENV === 'development';
+                      
     if (isAllowed) {
       callback(null, true);
     } else {
       callback(null, false);
     }
   },
-  credentials: true
+  credentials: true,
+  optionsSuccessStatus: 200
 }));
 app.use(express.json());
 
