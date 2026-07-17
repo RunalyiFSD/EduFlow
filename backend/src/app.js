@@ -14,7 +14,7 @@ const allowedOrigins = [];
 if (CLIENT_ORIGIN) {
   allowedOrigins.push(...CLIENT_ORIGIN.split(',').map(o => o.trim()));
 }
-allowedOrigins.push('http://localhost:5173', 'http://localhost:3000','https://eduflow-ex73.onrender.com');
+allowedOrigins.push('http://localhost:5173', 'http://localhost:3000');
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -23,7 +23,7 @@ app.use(cors({
     if (isAllowed) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(null, false);
     }
   },
   credentials: true
