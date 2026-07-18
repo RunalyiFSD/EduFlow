@@ -29,6 +29,7 @@ app.use(cors({
     const normalizedOrigin = origin.replace(/\/$/, '');
     const isAllowed = allowedOrigins.includes(normalizedOrigin) || 
                       /^https?:\/\/localhost(:\d+)?$/.test(normalizedOrigin) ||
+                      /^https:\/\/.*\.vercel\.app$/.test(normalizedOrigin) ||
                       process.env.NODE_ENV === 'development';
                       
     console.log(`[CORS Debug] Incoming Origin: "${origin}" (normalized: "${normalizedOrigin}"). Allowed? ${isAllowed}`);
